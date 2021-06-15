@@ -148,6 +148,7 @@ sap.ui.define([
 			var newPosition = this.getView().byId("myComboBox").getSelectedItem() ?
 				this.getView().byId("myComboBox").getSelectedItem().getText() : "Unspecified";
 
+			//this.newRecord = {};
 			this.newRecord = {};
 
 			this.newRecord = {
