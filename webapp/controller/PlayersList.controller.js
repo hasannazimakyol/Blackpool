@@ -150,7 +150,7 @@ sap.ui.define([
 			
 			this.newRecord = {};
 			var c = 1;
-			var a= 2;
+
 			this.newRecord = {
 				Id: newId,
 				Image: oFormData.Image,
