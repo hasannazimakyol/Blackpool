@@ -1,0 +1,63 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="mbis.Blackpool.controller.PlayersList"
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<App>
+		<pages>
+			<Page title="Blackpool A Team">
+				<Table id="teamTable" mode="MultiSelect" items="{ path: 'player>/Players', sorter : { path : 'Position', group : true } }">
+					<headerToolbar>
+						<Toolbar>
+							<Title id="teamHeader" text="Players"/>
+							<ToolbarSpacer/>
+							<SearchField search=".onFilterPlayers" width="auto"></SearchField>
+							<Button id="addButton" text="{i18n>addButton}" press="onOpenAdd" class="sapUiSmallMarginEnd"/>
+							<Button id="deleteButton" text="{i18n>deleteButton}" press="onDelete" class="sapUiSmallMarginEnd"/>
+						</Toolbar>
+					</headerToolbar>
+					<columns>
+						<Column >
+							<Text text=""/>
+						</Column>
+						<Column >
+							<Text text="Name"/>
+						</Column>
+						<Column >
+							<Text text="Surname"/>
+						</Column>
+						<Column >
+							<Text text="Birth Date"/>
+						</Column>
+						<Column >
+							<Text text="Country"/>
+						</Column>
+						<Column >
+							<Text text="Market Value"/>
+						</Column>
+						<Column >
+							<Text text="Position"/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem type="Navigation" press="onPress">
+							<cells>
+								<Image src="{player>Image}" class="Image"></Image>
+								<ObjectIdentifier title="{player>Name}"/>
+								<ObjectIdentifier title="{player>Surname}"/>
+								<ObjectIdentifier title="{player>BirthDate}"/>
+								<ObjectIdentifier title="{player>Country}"/>
+								<!--<ObjectIdentifier title="{player>MarketValue}"/>-->
+								<!--numberUnit={view>/currency}-->
+								<ObjectListItem
+									number="{ parts: [{path: 'player>MarketValue'}, {path: 'view>/currency'}], type: 'sap.ui.model.type.Currency', 
+									formatOptions: { showMeasure: false, decimals: 0 } }"
+									numberUnit="€"
+									>
+								</ObjectListItem>
+								<ObjectIdentifier title="{player>Position}"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

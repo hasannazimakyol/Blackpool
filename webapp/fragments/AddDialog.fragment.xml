@@ -1,0 +1,49 @@
+<core:FragmentDefinition height="100%" width="100%" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form" controllerName="mbis.Blackpool.controller.PlayersList">
+	<Dialog id="addDialog" title="Add Player">
+		<content>
+			<HBox width="100%">
+				<VBox>
+					<f:SimpleForm id="addForm" layout="ResponsiveGridLayout" title="Registration Form" labelSpanM="3">
+						<f:content>
+							<core:Title text="Player Information"/>
+							<Label text="Name"/>
+							<Input value="{form>/Name}" placeholder="First Name"/>
+							<Input value="{form>/Surname}" placeholder="Last Name">
+								<layoutData>
+									<l:GridData span="L3 M3 S4"/>
+								</layoutData>
+							</Input>
+							<Label text="Image Url"/>
+							<Input value="{form>/Image}" placeholder="https://www.."/>
+							<Label text="Birth Date"/>
+							<DatePicker id="validDateEdit" value="{form>/BirthDate}">
+								<layoutData>
+									<l:GridData span="L4 M3 S4"/>
+								</layoutData>
+							</DatePicker>
+							<Label text="Country"/>
+							<Input value="{form>/Country}" placeholder="Turkey"/>
+							<Label text="Market Value"/>
+							<Input value="{form>/MarketValue}" placeholder="123.011"/>
+							<!--<Label text="Position"/>-->
+							<!--<Input value="{form>/Position}" placeholder="Forward"/>-->
+							<ComboBox id="myComboBox" 
+							items="{ path: 'position>/Positions'}" 
+							placeholder="Select Position">
+								<core:Item key="{position>id}" text="{position>name}" />
+							</ComboBox>
+						</f:content>
+					</f:SimpleForm>
+				</VBox>
+			</HBox>
+		</content>
+		<beginButton>
+			<Button press=".onCloseDialog" type="Back"/>
+			<!--text="{i18n>addDialogClose}"-->
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>addDialogSave}" press=".onSave" type="Accept"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>
