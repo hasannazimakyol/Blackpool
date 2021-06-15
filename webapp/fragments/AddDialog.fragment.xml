@@ -7,6 +7,7 @@
 					<f:SimpleForm id="addForm" layout="ResponsiveGridLayout" title="Registration Form" labelSpanM="3">
 						<f:content>
 							<core:Title text="Player Information"/>
+							
 							<Label text="Name"/>
 							<Input value="{form>/Name}" placeholder="First Name"/>
 							<Input value="{form>/Surname}" placeholder="Last Name">
@@ -14,28 +15,50 @@
 									<l:GridData span="L3 M3 S4"/>
 								</layoutData>
 							</Input>
+							
 							<Label text="Image Url"/>
 							<Input value="{form>/Image}" placeholder="https://www.."/>
+							
 							<Label text="Birth Date"/>
 							<DatePicker id="validDateEdit" value="{form>/BirthDate}">
 								<layoutData>
 									<l:GridData span="L4 M3 S4"/>
 								</layoutData>
 							</DatePicker>
+							
 							<Label text="Country"/>
 							<Input value="{form>/Country}" placeholder="Turkey"/>
+							
 							<Label text="Market Value"/>
 							<Input value="{form>/MarketValue}" placeholder="123.011"/>
-							<!--<Label text="Position"/>-->
-							<!--<Input value="{form>/Position}" placeholder="Forward"/>-->
-							<ComboBox id="myComboBox" 
-							items="{ path: 'position>/Positions'}" 
-							placeholder="Select Position">
-								<core:Item key="{position>id}" text="{position>name}" />
-							</ComboBox>
+							
+							<Label text="Position"/>
+							<Input value="{form>/Position}" placeholder="Forward"/>
+							
 						</f:content>
 					</f:SimpleForm>
 				</VBox>
+				
+				<!--<Vbox width="50%" id="idPlayerData" visible="true">-->
+				<!--	<HBox width="100%" justifyContent="Center" class="sapUitinyMargin">-->
+				<!--		<HBox width="50%" justifyContent="End">-->
+				<!--			<Label text="Name :"></Label>-->
+				<!--		</HBox>-->
+				<!--		<HBox width="50%" justifyContent="Start">-->
+				<!--			<Text text="{/Name}"></Text>-->
+				<!--		</HBox>-->
+				<!--	</HBox>-->
+					
+				<!--	<HBox width="100%" justifyContent="Center" class="sapUitinyMargin">-->
+				<!--		<HBox width="50%" justifyContent="End">-->
+				<!--			<Label text="Birth Date :"></Label>-->
+				<!--		</HBox>-->
+				<!--		<HBox width="50%" justifyContent="Start">-->
+				<!--			<Text text="{/BirthDate}"></Text>-->
+				<!--		</HBox>-->
+				<!--	</HBox>-->
+					
+				<!--</Vbox>-->
 			</HBox>
 		</content>
 		<beginButton>

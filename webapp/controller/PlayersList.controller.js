@@ -13,39 +13,29 @@ sap.ui.define([
 		formatter: formatter,
 
 		onInit: function() {
-
 			var oViewModel = new JSONModel({
 				currency: "EUR"
 			});
-
-			var oPositionModel = new JSONModel({
-				Positions: [{
-					id: 1,
-					name: "1-Goalkeeper"
-				}, {
-					id: 2,
-					name: "2-Defender"
-				}, {
-					id: 3,
-					name: "3-Midfielder"
-				}, {
-					id: 4,
-					name: "4-Forward"
-				}]
-			});
-
 			this.getView().setModel(oViewModel, "view");
-			this.getView().setModel(oPositionModel, "position");
 
+			this.getView().setModel(new JSONModel(sap.ui.require.toUrl("mbis/Blackpool/model/Players.json")));
 			this.getView().setModel(new JSONModel(sap.ui.require.toUrl("mbis/Blackpool/model/form.json")), "form");
 
-			this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);    // if you want session log use 'Type.session'
-			this.oStorage.get("localData");
+			// if(!this.oStorage.getData("myLocalData").Players){
+			// 	this.oStorage.put("myLocalData", new JSONModel(sap.ui.require.toUrl("mbis/Blackpool/model/Players.json")).getData());
+			// }
 
-			if (this.oStorage.get("localData")) {
-				this.getView().setModel(new JSONModel(this.oStorage.get("localData")), "player");
-			}
+			// this.newRecord = {
+			// 	Name: "",
+			// 	Surname: "",
+			// 	BirthDate: "",
+			// 	Country: "",
+			// 	MarketValue: "",
+			// 	Position: ""
+			// };
 
+			// this._oTable = this.byId("teamTable");
+			// this._oTable.setModel(new JSONModel(oModel));
 		},
 
 		onFilterPlayers: function(oEvent) {
@@ -75,10 +65,6 @@ sap.ui.define([
 				Position: ""
 			});
 
-			// if(this.getView().byId("myComboBox").getSelectedItem()){
-
-			// }
-
 			var oView = this.getView();
 			var oDialog = oView.byId("addDialog");
 			// create dialog lazily
@@ -98,7 +84,7 @@ sap.ui.define([
 		onDelete: function() {
 
 			var oTable = this.getView().byId("teamTable");
-			var aData = oTable.getModel("player").getData().Players;
+			var aData = oTable.getModel().getData().Players;
 			var aSelectedPlayers = this.getView().byId("teamTable").getSelectedItems();
 
 			for (var sPlayer = 0; sPlayer < aSelectedPlayers.length; sPlayer++) {
@@ -108,67 +94,140 @@ sap.ui.define([
 				}).indexOf(vId);
 				aData.splice(indexSelectedPlayer, 1);
 			}
-
-			var storageData = {
-				Players: aData
-			};
-
-			this.getView().getModel("player").setData({
+			this.getView().getModel().setData({
 				Players: aData
 			});
 
-			this.oStorage.put("localData", storageData);
-
 			// Reset table selection in UI5
 			oTable.removeSelections(true);
-			oTable.getModel("player").refresh(true);
-			this.getView().setModel(this.getView().getModel("player"), "player");
+			oTable.getModel().refresh(true);
+			this.getView().setModel(this.getView().getModel(), "player");
 
+			// var oTable2 = this.getView().byId("teamTable");
+			// this.oModel2 = oTable2.getModel();
+			// var data = this.oModel2.getData();
+			// var aRows;
+			// if (data.Players) {
+			// 	aRows = data.Players;
+			// } else {
+			// 	aRows = data.data;
+			// }
+
+			// aRows.sort(function(a, b) {
+			// 	var x = a.Position.toLowerCase();
+			// 	var y = b.Position.toLowerCase();
+			// 	if (x < y) {
+			// 		return -1;
+			// 	}
+			// 	if (x > y) {
+			// 		return 1;
+			// 	}
+			// 	return 0;
+			// });
+
+			// var aContexts = oTable2.getSelectedContexts();
+
+			// for (var i = aContexts.length - 1; i >= 0; i--) {
+			// 	var oThisObj = aContexts[i].getObject();
+
+			// 	var index = $.map(aRows, function(obj, index) {
+			// 		if (obj == oThisObj) {
+			// 			return index;
+			// 		}
+			// 	});
+
+			// 	// The splice() method adds/removes items to/from an array
+			// 	// Here we are deleting the selected index row
+			// 	// https://www.w3schools.com/jsref/jsref_splice.asp
+
+			// 	aRows.splice(index, 1);
+			// }
+
+			// this.oModel2.setData({
+			// 	Players: aRows
+			// });
+
+			// Reset table selection in UI5
+			// oTable2.removeSelections(true);
+			// this.oModel2.refresh(true);
+			// this.getView().setModel(this.oModel2, "player");
 		},
 
 		onSave: function() {
 
+			// var oTable = this.getView().byId("teamTable");
+			// var oModel = oTable.getModel();
+			// var oTableData = oModel.getData();
+			// delete oTableData.Players;
+			// oTableData.Players.push(oTableData);
+
+			// var oTable = this.getView().byId("teamTable");
+			// var oModel = oTable.getModel();
+			// var oTableData = oModel.getData();
+
 			var oFormModel = this.getView().getModel("form");
 			var oFormData = oFormModel.getData();
-
-			function compare_id(a, b) {
-				// a should come before b in the sorted order
-				if (a.Id < b.Id) {
-					return -1;
-					// a should come after b in the sorted order
-				} else if (a.Id > b.Id) {
-					return 1;
-					// and and b are the same
-				} else {
-					return 0;
-				}
-			}
-
-			var sortedPlayers = this.getView().getModel("player").getData().Players.sort(compare_id);
-			var newId = sortedPlayers[sortedPlayers.length - 1].Id + 1;
-			var newPosition = this.getView().byId("myComboBox").getSelectedItem() ?
-			this.getView().byId("myComboBox").getSelectedItem().getText() : "Unspecified";
-			
-			this.newRecord = {};
+			var newId = this.getView().getModel().getData().Players.length + 1;
 
 			this.newRecord = {
-				Id: newId,
-				Image: oFormData.Image,
-				Name: oFormData.Name,
-				Surname: oFormData.Surname,
-				BirthDate: oFormData.BirthDate,
-				Country: oFormData.Country,
-				MarketValue: oFormData.MarketValue,
-				Position: newPosition
+				Players: [{
+					Id: newId,
+					Image: oFormData.Image,
+					Name: oFormData.Name,
+					Surname: oFormData.Surname,
+					BirthDate: oFormData.BirthDate,
+					Country: oFormData.Country,
+					MarketValue: oFormData.MarketValue,
+					Position: oFormData.Position
+				}]
 			};
 
-			var playerModel = this.getView().getModel("player");
-			playerModel.getData().Players.push(this.newRecord);
-			this.getView().setModel(this.playerModel, "player");
+			// var playersString = "Players";
+			// delete oFormData.Name;
+			// delete oFormData.Surname;
+			// delete oFormData.BirthDate;
+			// delete oFormData.Country;
+			// delete oFormData.MarketValue;
+			// delete oFormData.Position;
+			// var withoutPlayers = oTableData.filter(function(x) { return x !== playersString; });
 
-			this.oStorage.put("localData", playerModel.getData());
+			this.oModel = this.getView().getModel();
+			this.oModel.getData().Players.push(this.newRecord.Players);
+			this.getView().setModel(this.oModel, "player");
 
-			this.getView().byId("teamTable").getModel("player").refresh(true);
+			// var sessionData = {
+
+			// };
+
+			// //Get Storage object to use
+			// this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
+			// //Get data from Storage
+			// this.oStorage.get("myLocalData");
+			// //Set data into Storage
+			// this.oStorage.put("myLocalData", this.oModel.getData());
+			// //Clear Storage
+			// oStorage.clear();
+
+			this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
+			this.oStorage.get("players");
+			this.oStorage.put("players", this.newRecord);
+
+
+			this.getView().byId("teamTable").getModel().refresh(true);
+
+			this.newRecord = {
+				Players: [{
+					Id: "",
+					Image: "",
+					Name: "",
+					Surname: "",
+					BirthDate: "",
+					Country: "",
+					MarketValue: "",
+					Position: ""
+				}]
+			};
+
 			this.getView().byId("addDialog").close();
 
 		},
