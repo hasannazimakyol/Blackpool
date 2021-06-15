@@ -146,11 +146,9 @@ sap.ui.define([
 			var sortedPlayers = this.getView().getModel("player").getData().Players.sort(compare_id);
 			var newId = sortedPlayers[sortedPlayers.length - 1].Id + 1;
 			var newPosition = this.getView().byId("myComboBox").getSelectedItem() ?
-				this.getView().byId("myComboBox").getSelectedItem().getText() : "Unspecified";
+			this.getView().byId("myComboBox").getSelectedItem().getText() : "Unspecified";
 			
 			this.newRecord = {};
-			var d = 4;
-
 
 			this.newRecord = {
 				Id: newId,
