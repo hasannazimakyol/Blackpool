@@ -147,7 +147,8 @@ sap.ui.define([
 			var newId = sortedPlayers[sortedPlayers.length - 1].Id + 1;
 			var newPosition = this.getView().byId("myComboBox").getSelectedItem() ?
 				this.getView().byId("myComboBox").getSelectedItem().getText() : "Unspecified";
-
+			
+			var a = 1;
 			this.newRecord = {};
 			var c = 1;
 
