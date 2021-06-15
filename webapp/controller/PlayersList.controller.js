@@ -13,6 +13,7 @@ sap.ui.define([
 		formatter: formatter,
 
 		onInit: function() {
+			//onInit p
 			var oViewModel = new JSONModel({
 				currency: "EUR"
 			});
