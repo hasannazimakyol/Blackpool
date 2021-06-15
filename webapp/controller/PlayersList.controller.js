@@ -38,7 +38,7 @@ sap.ui.define([
 
 			this.getView().setModel(new JSONModel(sap.ui.require.toUrl("mbis/Blackpool/model/form.json")), "form");
 
-			this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
+			this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);    // if you want session log use 'Type.session'
 			this.oStorage.get("localData");
 
 			if (this.oStorage.get("localData")) {
