@@ -148,10 +148,9 @@ sap.ui.define([
 			var newPosition = this.getView().byId("myComboBox").getSelectedItem() ?
 				this.getView().byId("myComboBox").getSelectedItem().getText() : "Unspecified";
 			
-			var a = 1;
 			this.newRecord = {};
 			var c = 1;
-
+			var a= 2;
 			this.newRecord = {
 				Id: newId,
 				Image: oFormData.Image,
