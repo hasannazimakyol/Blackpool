@@ -196,6 +196,18 @@ sap.ui.define([
 			playerModel.getData().Players.push(this.newRecord);
 			this.getView().setModel(playerModel, "player");
 
+			var playersArray = this.getView().getModel("player").getData().Players;
+			var oIconModel = new JSONModel({
+				countAll: playersArray.length,
+				countGoalkeepers: playersArray.filter((obj) => obj.Position === "1-Goalkeeper").length,
+				countDefenders: playersArray.filter((obj) => obj.Position === "2-Defender").length,
+				countMidfielders: playersArray.filter((obj) => obj.Position === "3-Midfielder").length,
+				countForwards: playersArray.filter((obj) => obj.Position === "4-Forward").length
+			});
+
+			this.getView().setModel(oIconModel, "icon");
+			this.getView().byId("idIconTabBar").getModel("icon").refresh(true);
+
 			this.oStorage.put("localData", playerModel.getData());
 
 			this.getView().byId("teamTable").getModel("player").refresh(true);

@@ -24,7 +24,8 @@
 }
 
 .clubInfoText {
-    font-size: 1.1em;
+    font-size: 1.2em;
     text-transform: capitalize;
-    font-family: "Sofia", sans-serif;
+    font-family: 'Benne', serif;
+    font-weight: bold;
 }
