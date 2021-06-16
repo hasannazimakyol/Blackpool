@@ -33,6 +33,8 @@ sap.ui.define([
 					name: "4-Forward"
 				}]
 			});
+			
+			
 
 			this.getView().setModel(oViewModel, "view");
 			this.getView().setModel(oPositionModel, "position");
@@ -45,7 +47,33 @@ sap.ui.define([
 			if (this.oStorage.get("localData")) {
 				this.getView().setModel(new JSONModel(this.oStorage.get("localData")), "player");
 			}
+			
+			var oIconModel = new JSONModel({
+				count: this.getView().getModel("player").getData().Players.length
+			});
+			
+			this.getView().setModel(oIconModel, "icon");
 
+		},
+		
+		onFilterSelect: function(oEvent) {
+			var oBinding = this.byId("teamTable").getBinding("items"),
+				sKey = oEvent.getParameter("key"),
+				sText = oEvent.getParameter("key"),
+				// Array to combine filters
+				aFilter = [];
+				
+				if (sKey === "1-Goalkeeper") {
+					aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
+				} else if (sKey === "2-Defender") {
+					aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
+				} else if (sKey === "3-Midfielder") {
+					aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
+				} else if (sKey === "4-Forward") {
+					aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
+				}
+				
+				oBinding.filter(aFilter);
 		},
 
 		onFilterPlayers: function(oEvent) {
