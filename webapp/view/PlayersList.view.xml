@@ -1,9 +1,48 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="mbis.Blackpool.controller.PlayersList"
 	xmlns:html="http://www.w3.org/1999/xhtml">
-	<App>
-		<pages>
-			<Page title="Blackpool A Team">
-				<Table id="teamTable" mode="MultiSelect" items="{ path: 'player>/Players', sorter : { path : 'Position', group : true } }">
+	
+	<IconTabBar
+		id="idIconTabBar"
+		select=".onFilterSelect"
+		class="sapUiResponsiveContentPadding">
+		<items>
+			<IconTabFilter
+				showAll="true"
+				count="{icon>/countAll}"
+				text="All Players"
+				key="All" />
+			<IconTabSeparator />
+			<IconTabFilter
+				icon="https://img.icons8.com/ios/452/goalkeeper.png"
+				iconColor="Positive"
+				count="{icon>/countGoalkeepers}"
+				text="Goalkeeper"
+				key="1-Goalkeeper"
+				/>
+
+			<IconTabFilter
+				icon="https://cdn3.iconfinder.com/data/icons/safety-1/80/Safety-03-512.png"
+				iconColor="Positive"
+				count="{icon>/countDefenders}"
+				text="Defender"
+				key="2-Defender" />
+
+			<IconTabFilter
+				icon="https://www.iconpacks.net/icons/1/free-midfield-icon-458-thumb.png"
+				iconColor="Positive"
+				count="{icon>/countMidfielders}"
+				text="Midfielder"
+				key="3-Midfielder" />
+
+			<IconTabFilter
+				icon="sap-icon://soccer"
+				iconColor="Positive"
+				count="{icon>/countForwards}"
+				text="Forward"
+				key="4-Forward" />
+		</items>
+		<content>
+			<Table id="teamTable" mode="MultiSelect" showSeparators="Inner" items="{ path: 'player>/Players', sorter : { path : 'Position', group : true } }">
 					<headerToolbar>
 						<Toolbar>
 							<Title id="teamHeader" text="Players"/>
@@ -13,6 +52,11 @@
 							<Button id="deleteButton" text="{i18n>deleteButton}" press="onDelete" class="sapUiSmallMarginEnd"/>
 						</Toolbar>
 					</headerToolbar>
+					<infoToolbar>
+						<OverflowToolbar>
+							<Label text="Blackpool info toolbar"/>
+						</OverflowToolbar>
+					</infoToolbar>
 					<columns>
 						<Column >
 							<Text text=""/>
@@ -29,11 +73,13 @@
 						<Column >
 							<Text text="Country"/>
 						</Column>
-						<Column >
-							<Text text="Market Value"/>
-						</Column>
-						<Column >
+						<Column 
+							hAlign="Center">
 							<Text text="Position"/>
+						</Column>
+						<Column 
+							hAlign="End">
+							<Text text="Market Value"/>
 						</Column>
 					</columns>
 					<items>
@@ -46,18 +92,87 @@
 								<ObjectIdentifier title="{player>Country}"/>
 								<!--<ObjectIdentifier title="{player>MarketValue}"/>-->
 								<!--numberUnit={view>/currency}-->
+								
+								<ObjectIdentifier title="{player>Position}"/>
 								<ObjectListItem
 									number="{ parts: [{path: 'player>MarketValue'}, {path: 'view>/currency'}], type: 'sap.ui.model.type.Currency', 
 									formatOptions: { showMeasure: false, decimals: 0 } }"
 									numberUnit="€"
 									>
 								</ObjectListItem>
-								<ObjectIdentifier title="{player>Position}"/>
 							</cells>
 						</ColumnListItem>
 					</items>
 				</Table>
-			</Page>
-		</pages>
-	</App>
-</mvc:View>
+		</content>
+		
+	</IconTabBar>
+	
+</mvc:View>	
+	
+	
+	
+	
+	
+	
+	
+	<!--<App>-->
+	<!--	<pages>-->
+	<!--		<Page title="Blackpool A Team">-->
+	<!--			<Table id="teamTable" mode="MultiSelect" items="{ path: 'player>/Players', sorter : { path : 'Position', group : true } }">-->
+	<!--				<headerToolbar>-->
+	<!--					<Toolbar>-->
+	<!--						<Title id="teamHeader" text="Players"/>-->
+	<!--						<ToolbarSpacer/>-->
+	<!--						<SearchField search=".onFilterPlayers" width="auto"></SearchField>-->
+	<!--						<Button id="addButton" text="{i18n>addButton}" press="onOpenAdd" class="sapUiSmallMarginEnd"/>-->
+	<!--						<Button id="deleteButton" text="{i18n>deleteButton}" press="onDelete" class="sapUiSmallMarginEnd"/>-->
+	<!--					</Toolbar>-->
+	<!--				</headerToolbar>-->
+	<!--				<columns>-->
+	<!--					<Column >-->
+	<!--						<Text text=""/>-->
+	<!--					</Column>-->
+	<!--					<Column >-->
+	<!--						<Text text="Name"/>-->
+	<!--					</Column>-->
+	<!--					<Column >-->
+	<!--						<Text text="Surname"/>-->
+	<!--					</Column>-->
+	<!--					<Column >-->
+	<!--						<Text text="Birth Date"/>-->
+	<!--					</Column>-->
+	<!--					<Column >-->
+	<!--						<Text text="Country"/>-->
+	<!--					</Column>-->
+	<!--					<Column >-->
+	<!--						<Text text="Market Value"/>-->
+	<!--					</Column>-->
+	<!--					<Column >-->
+	<!--						<Text text="Position"/>-->
+	<!--					</Column>-->
+	<!--				</columns>-->
+	<!--				<items>-->
+	<!--					<ColumnListItem type="Navigation" press="onPress">-->
+	<!--						<cells>-->
+	<!--							<Image src="{player>Image}" class="Image"></Image>-->
+	<!--							<ObjectIdentifier title="{player>Name}"/>-->
+	<!--							<ObjectIdentifier title="{player>Surname}"/>-->
+	<!--							<ObjectIdentifier title="{player>BirthDate}"/>-->
+	<!--							<ObjectIdentifier title="{player>Country}"/>-->
+								<!--<ObjectIdentifier title="{player>MarketValue}"/>-->
+								<!--numberUnit={view>/currency}-->
+	<!--							<ObjectListItem-->
+	<!--								number="{ parts: [{path: 'player>MarketValue'}, {path: 'view>/currency'}], type: 'sap.ui.model.type.Currency', -->
+	<!--								formatOptions: { showMeasure: false, decimals: 0 } }"-->
+	<!--								numberUnit="€"-->
+	<!--								>-->
+	<!--							</ObjectListItem>-->
+	<!--							<ObjectIdentifier title="{player>Position}"/>-->
+	<!--						</cells>-->
+	<!--					</ColumnListItem>-->
+	<!--				</items>-->
+	<!--			</Table>-->
+	<!--		</Page>-->
+	<!--	</pages>-->
+	<!--</App>-->
