@@ -13,6 +13,7 @@ sap.ui.define([
 		formatter: formatter,
 
 		onInit: function() {
+
 			var oViewModel = new JSONModel({
 				currency: "EUR"
 			});
@@ -38,7 +39,7 @@ sap.ui.define([
 
 			this.getView().setModel(new JSONModel(sap.ui.require.toUrl("mbis/Blackpool/model/form.json")), "form");
 
-			this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
+			this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);    // if you want session log use 'Type.session'
 			this.oStorage.get("localData");
 
 			if (this.oStorage.get("localData")) {
@@ -112,9 +113,7 @@ sap.ui.define([
 				Players: aData
 			};
 
-			this.getView().getModel("player").setData({
-				Players: aData
-			});
+			this.getView().getModel("player").setData(storageData);
 
 			this.oStorage.put("localData", storageData);
 
@@ -163,7 +162,7 @@ sap.ui.define([
 
 			var playerModel = this.getView().getModel("player");
 			playerModel.getData().Players.push(this.newRecord);
-			this.getView().setModel(this.playerModel, "player");
+			this.getView().setModel(playerModel, "player");
 
 			this.oStorage.put("localData", playerModel.getData());
 
