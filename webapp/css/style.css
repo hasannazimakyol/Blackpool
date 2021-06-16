@@ -1,4 +1,30 @@
-.Image{
- height: 75px;
-  width: 100px;
+* {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.Image {
+    height: 75px;
+    width: 100px;
+}
+
+.clubInfoBox {
+    margin: 50px;
+    text-align: center;
+}
+
+.clubInfoLabel {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-variant: small-caps;
+    font-size: 1.2em;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-decoration: underline;
+    text-transform: capitalize;
+    text-shadow: 1px 1px 2px grey;
+}
+
+.clubInfoText {
+    font-size: 1.1em;
+    text-transform: capitalize;
+    font-family: "Sofia", sans-serif;
 }

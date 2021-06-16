@@ -1,20 +1,24 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="mbis.Blackpool.controller.Header"
 	xmlns:html="http://www.w3.org/1999/xhtml">
-
-	<VBox class="navigationExamples">
-		<Panel>
-			<FlexBox
-				class="ne-flexbox2"
-				justifyContent="SpaceAround"
-				alignItems="Center">
-				<Image src="{/team/imageUrl}" width="100px" height="100px" class="sapUiMediumMarginTopBottom"/>
-				<FlexBox direction="Column">
-					<Text text="Club Name: {/team/name}"></Text>
-					<Text text="Country: {/team/country}"></Text>
-					<Text text="League: {/team/league}"></Text>
-					<Text text="Foundation Year: {/team/foundationYear}"></Text>
-				</FlexBox>
-			</FlexBox>
-		</Panel>
-	</VBox>
+	<HBox fitContainer="true" alignItems="Stretch" class="sapUiSmallMargin nestedFlexboxes" justifyContent="SpaceAround">
+		<Image src="{/team/imageUrl}" width="130px" height="130px" class="sapUiMediumMarginTopBottom"/>
+		<HBox fitContainer="true" alignItems="Stretch" justifyContent="SpaceBetween">
+			<VBox class="clubInfoBox" justifyContent="SpaceAround">
+				<Label class="clubInfoLabel" text="Club Name"/>
+				<Text class="clubInfoText" text="{/team/name}"></Text>
+			</VBox>
+			<VBox class="clubInfoBox" justifyContent="SpaceAround">
+				<Label class="clubInfoLabel" text="Country"/>
+				<Text class="clubInfoText" text="{/team/country}"></Text>
+			</VBox>
+			<VBox class="clubInfoBox" justifyContent="SpaceAround">
+				<Label class="clubInfoLabel" text="League"/>
+				<Text class="clubInfoText" text="{/team/league}"></Text>
+			</VBox>
+			<VBox class="clubInfoBox" justifyContent="SpaceAround">
+				<Label class="clubInfoLabel" text="Foundation Year"/>
+				<Text class="clubInfoText" text="{/team/foundationYear}"></Text>
+			</VBox>
+		</HBox>
+	</HBox>
 </mvc:View>

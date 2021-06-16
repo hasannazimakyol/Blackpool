@@ -1,6 +1,6 @@
 <mvc:View controllerName="mbis.Blackpool.controller.Worklist" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
 	<semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false">
-		<semantic:titleHeading>
+		<semantic:titleHeading textAlign="Center">
 			<Title text="{i18n>worklistTitle}"/>
 		</semantic:titleHeading>
 		<semantic:content>

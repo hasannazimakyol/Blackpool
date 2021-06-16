@@ -19,18 +19,21 @@
 				text="Goalkeeper"
 				key="1-Goalkeeper"
 				/>
+
 			<IconTabFilter
-				icon="https://image.shutterstock.com/image-vector/network-protection-shield-symbol-design-260nw-1119130889.jpg"
+				icon="https://cdn3.iconfinder.com/data/icons/safety-1/80/Safety-03-512.png"
 				iconColor="Positive"
 				count="3"
 				text="Defender"
 				key="2-Defender" />
+
 			<IconTabFilter
 				icon="https://www.iconpacks.net/icons/1/free-midfield-icon-458-thumb.png"
 				iconColor="Positive"
 				count="1"
 				text="Midfielder"
 				key="3-Midfielder" />
+
 			<IconTabFilter
 				icon="sap-icon://soccer"
 				iconColor="Positive"
