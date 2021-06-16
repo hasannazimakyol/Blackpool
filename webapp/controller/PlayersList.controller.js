@@ -113,9 +113,7 @@ sap.ui.define([
 				Players: aData
 			};
 
-			this.getView().getModel("player").setData({
-				Players: aData
-			});
+			this.getView().getModel("player").setData(storageData);
 
 			this.oStorage.put("localData", storageData);
 
@@ -164,7 +162,7 @@ sap.ui.define([
 
 			var playerModel = this.getView().getModel("player");
 			playerModel.getData().Players.push(this.newRecord);
-			this.getView().setModel(this.playerModel, "player");
+			this.getView().setModel(playerModel, "player");
 
 			this.oStorage.put("localData", playerModel.getData());
 
