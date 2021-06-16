@@ -33,47 +33,51 @@ sap.ui.define([
 					name: "4-Forward"
 				}]
 			});
-			
-			
 
 			this.getView().setModel(oViewModel, "view");
 			this.getView().setModel(oPositionModel, "position");
 
 			this.getView().setModel(new JSONModel(sap.ui.require.toUrl("mbis/Blackpool/model/form.json")), "form");
 
-			this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);    // if you want session log use 'Type.session'
+			this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local); // if you want session log use 'Type.session'
 			this.oStorage.get("localData");
 
 			if (this.oStorage.get("localData")) {
 				this.getView().setModel(new JSONModel(this.oStorage.get("localData")), "player");
 			}
-			
+
+			var playersArray = this.getView().getModel("player").getData().Players;
+
 			var oIconModel = new JSONModel({
-				count: this.getView().getModel("player").getData().Players.length
+				countAll: playersArray.length,
+				countGoalkeepers: playersArray.filter((obj) => obj.Position === "1-Goalkeeper").length,
+				countDefenders: playersArray.filter((obj) => obj.Position === "2-Defender").length,
+				countMidfielders: playersArray.filter((obj) => obj.Position === "3-Midfielder").length,
+				countForwards: playersArray.filter((obj) => obj.Position === "4-Forward").length
 			});
-			
+
 			this.getView().setModel(oIconModel, "icon");
 
 		},
-		
+
 		onFilterSelect: function(oEvent) {
 			var oBinding = this.byId("teamTable").getBinding("items"),
 				sKey = oEvent.getParameter("key"),
 				sText = oEvent.getParameter("key"),
 				// Array to combine filters
 				aFilter = [];
-				
-				if (sKey === "1-Goalkeeper") {
-					aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
-				} else if (sKey === "2-Defender") {
-					aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
-				} else if (sKey === "3-Midfielder") {
-					aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
-				} else if (sKey === "4-Forward") {
-					aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
-				}
-				
-				oBinding.filter(aFilter);
+
+			if (sKey === "1-Goalkeeper") {
+				aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
+			} else if (sKey === "2-Defender") {
+				aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
+			} else if (sKey === "3-Midfielder") {
+				aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
+			} else if (sKey === "4-Forward") {
+				aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
+			}
+
+			oBinding.filter(aFilter);
 		},
 
 		onFilterPlayers: function(oEvent) {
@@ -173,8 +177,8 @@ sap.ui.define([
 			var sortedPlayers = this.getView().getModel("player").getData().Players.sort(compare_id);
 			var newId = sortedPlayers[sortedPlayers.length - 1].Id + 1;
 			var newPosition = this.getView().byId("myComboBox").getSelectedItem() ?
-			this.getView().byId("myComboBox").getSelectedItem().getText() : "Unspecified";
-			
+				this.getView().byId("myComboBox").getSelectedItem().getText() : "Unspecified";
+
 			this.newRecord = {};
 
 			this.newRecord = {

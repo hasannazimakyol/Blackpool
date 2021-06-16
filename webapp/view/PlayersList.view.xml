@@ -8,14 +8,14 @@
 		<items>
 			<IconTabFilter
 				showAll="true"
-				count="{icon>/count}"
+				count="{icon>/countAll}"
 				text="All Players"
 				key="All" />
 			<IconTabSeparator />
 			<IconTabFilter
 				icon="https://img.icons8.com/ios/452/goalkeeper.png"
 				iconColor="Positive"
-				count="1"
+				count="{icon>/countGoalkeepers}"
 				text="Goalkeeper"
 				key="1-Goalkeeper"
 				/>
@@ -23,21 +23,21 @@
 			<IconTabFilter
 				icon="https://cdn3.iconfinder.com/data/icons/safety-1/80/Safety-03-512.png"
 				iconColor="Positive"
-				count="3"
+				count="{icon>/countDefenders}"
 				text="Defender"
 				key="2-Defender" />
 
 			<IconTabFilter
 				icon="https://www.iconpacks.net/icons/1/free-midfield-icon-458-thumb.png"
 				iconColor="Positive"
-				count="1"
+				count="{icon>/countMidfielders}"
 				text="Midfielder"
 				key="3-Midfielder" />
 
 			<IconTabFilter
 				icon="sap-icon://soccer"
 				iconColor="Positive"
-				count="1"
+				count="{icon>/countForwards}"
 				text="Forward"
 				key="4-Forward" />
 		</items>
