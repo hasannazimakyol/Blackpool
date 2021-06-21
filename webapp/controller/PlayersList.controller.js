@@ -73,7 +73,6 @@ sap.ui.define([
 		},
 
 		validatePositionValue: function() {
-
 			// this function gets the first textfield
 			var namePositionField = this.getView().byId("myComboBox").getSelectedItem() ?
 				this.getView().byId("myComboBox").getSelectedItem().getText() : null;
