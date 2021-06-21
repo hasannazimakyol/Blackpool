@@ -4,14 +4,20 @@ sap.ui.define([
 	"mbis/Blackpool/model/formatter",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
-	"sap/ui/core/Fragment"
-], function(BaseController, JSONModel, formatter, Filter, FilterOperator, Fragment) {
+	"sap/ui/core/Fragment",
+	"sap/m/MessageToast"
+], function(BaseController, JSONModel, formatter, Filter, FilterOperator, Fragment, MessageToast) {
 	"use strict";
 
 	return BaseController.extend("mbis.Blackpool.controller.PlayersList", {
 
 		formatter: formatter,
 
+		/**
+		 * Called when a controller is instantiated and its View controls (if available) are already created.
+		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
+		 * @memberOf mbis.Blackpool.view.PlayersList
+		 */
 		onInit: function() {
 
 			var oViewModel = new JSONModel({
@@ -37,6 +43,7 @@ sap.ui.define([
 			this.getView().setModel(oViewModel, "view");
 			this.getView().setModel(oPositionModel, "position");
 
+			this.getView().setModel(new JSONModel(sap.ui.require.toUrl("mbis/Blackpool/model/Players.json")));
 			this.getView().setModel(new JSONModel(sap.ui.require.toUrl("mbis/Blackpool/model/form.json")), "form");
 
 			this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local); // if you want session log use 'Type.session'
@@ -46,35 +53,58 @@ sap.ui.define([
 				this.getView().setModel(new JSONModel(this.oStorage.get("localData")), "player");
 			}
 
-			var playersArray = this.getView().getModel("player").getData().Players;
+			this.updateIconBar();
 
-			var oIconModel = new JSONModel({
-				countAll: playersArray.length,
-				countGoalkeepers: playersArray.filter((obj) => obj.Position === "1-Goalkeeper").length,
-				countDefenders: playersArray.filter((obj) => obj.Position === "2-Defender").length,
-				countMidfielders: playersArray.filter((obj) => obj.Position === "3-Midfielder").length,
-				countForwards: playersArray.filter((obj) => obj.Position === "4-Forward").length
-			});
+		},
 
-			this.getView().setModel(oIconModel, "icon");
+		updateIconBar: function() {
+			var playersArray = this.getView().getModel("player") ? this.getView().getModel("player").getData().Players : null;
+			if (playersArray) {
+				var oIconModel = new JSONModel({
+					countAll: playersArray.length,
+					countGoalkeepers: playersArray.filter((obj) => obj.Position === "1-Goalkeeper").length,
+					countDefenders: playersArray.filter((obj) => obj.Position === "2-Defender").length,
+					countMidfielders: playersArray.filter((obj) => obj.Position === "3-Midfielder").length,
+					countForwards: playersArray.filter((obj) => obj.Position === "4-Forward").length
+				});
+				this.getView().setModel(oIconModel, "icon");
+				this.getView().byId("idIconTabBar").getModel("icon").refresh(true);
+			}
+		},
 
+		validatePositionValue: function() {
+
+			// this function gets the first textfield
+			var namePositionField = this.getView().byId("myComboBox").getSelectedItem() ?
+				this.getView().byId("myComboBox").getSelectedItem().getText() : null;
+			var isViolation;
+
+			//this function checks its value, you can insert more checks on the value
+			if (!namePositionField) {
+				isViolation = true;
+				MessageToast.show("Please select a position.");
+				// alert("Please select a position.");
+
+			} else {
+				isViolation = false;
+			}
+			return isViolation;
 		},
 
 		onFilterSelect: function(oEvent) {
 			var oBinding = this.byId("teamTable").getBinding("items"),
 				sKey = oEvent.getParameter("key"),
-				sText = oEvent.getParameter("key"),
 				// Array to combine filters
 				aFilter = [];
 
 			if (sKey === "1-Goalkeeper") {
-				aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
+				aFilter.push(new Filter("Position", FilterOperator.EQ, sKey));
 			} else if (sKey === "2-Defender") {
-				aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
+				aFilter.push(new Filter("Position", FilterOperator.EQ, sKey));
 			} else if (sKey === "3-Midfielder") {
-				aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
+				aFilter.push(new Filter("Position", FilterOperator.EQ, sKey));
 			} else if (sKey === "4-Forward") {
-				aFilter.push(new Filter("Position", FilterOperator.EQ, sText));
+				aFilter.push(new Filter("Position", FilterOperator.EQ, sKey));
 			}
 
 			oBinding.filter(aFilter);
@@ -106,6 +136,18 @@ sap.ui.define([
 				MarketValue: "",
 				Position: ""
 			});
+
+			// var oPositionBox = this.getView().byId("myComboBox") || null;
+
+			// if (oPositionBox) {
+			// 	oPositionBox.setValue(null);
+			// 	if (oPositionBox.getSelectedItem()) {
+			// 		oPositionBox.getSelectedItem().setKey(null);
+			// 		if (oPositionBox.getSelectedItem().getValue()) {
+			// 			oPositionBox.getSelectedItem().setValue(null);
+			// 		}
+			// 	}
+			// }
 
 			// if(this.getView().byId("myComboBox").getSelectedItem()){
 
@@ -154,9 +196,17 @@ sap.ui.define([
 			oTable.getModel("player").refresh(true);
 			this.getView().setModel(this.getView().getModel("player"), "player");
 
+			this.updateIconBar();
+
 		},
 
 		onSave: function() {
+
+			var isVaolation = this.validatePositionValue();
+			if (isVaolation) {
+				this.onCloseDialog();
+				return false;
+			}
 
 			var oFormModel = this.getView().getModel("form");
 			var oFormData = oFormModel.getData();
@@ -168,7 +218,7 @@ sap.ui.define([
 					// a should come after b in the sorted order
 				} else if (a.Id > b.Id) {
 					return 1;
-					// and and b are the same
+					// a and b are the same
 				} else {
 					return 0;
 				}
@@ -196,17 +246,7 @@ sap.ui.define([
 			playerModel.getData().Players.push(this.newRecord);
 			this.getView().setModel(playerModel, "player");
 
-			var playersArray = this.getView().getModel("player").getData().Players;
-			var oIconModel = new JSONModel({
-				countAll: playersArray.length,
-				countGoalkeepers: playersArray.filter((obj) => obj.Position === "1-Goalkeeper").length,
-				countDefenders: playersArray.filter((obj) => obj.Position === "2-Defender").length,
-				countMidfielders: playersArray.filter((obj) => obj.Position === "3-Midfielder").length,
-				countForwards: playersArray.filter((obj) => obj.Position === "4-Forward").length
-			});
-
-			this.getView().setModel(oIconModel, "icon");
-			this.getView().byId("idIconTabBar").getModel("icon").refresh(true);
+			this.updateIconBar();
 
 			this.oStorage.put("localData", playerModel.getData());
 
@@ -216,21 +256,12 @@ sap.ui.define([
 		},
 
 		/**
-		 * Called when a controller is instantiated and its View controls (if available) are already created.
-		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
-		 * @memberOf mbis.Blackpool.view.PlayersList
-		 */
-		//	onInit: function() {
-		//
-		//	},
-
-		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
 		 * (NOT before the first rendering! onInit() is used for that one!).
 		 * @memberOf mbis.Blackpool.view.PlayersList
 		 */
 		onBeforeRendering: function() {
-
+			this.updateIconBar();
 		}
 
 		/**
