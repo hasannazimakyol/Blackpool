@@ -1,0 +1,25 @@
+<!--<mvc:View controllerName="mbis.Blackpool.controller.Detail" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc">-->
+<!--	<Page title="Player">-->
+<!--		<ObjectHeader intro="{player>Name}" title="{player>Surname}"/>-->
+<!--	</Page>-->
+<!--</mvc:View>-->
+<mvc:View controllerName="mbis.Blackpool.controller.Detail" xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
+	<Page title="Detail Page" showNavButton="true" navButtonPress=".onNavBack">
+		<Panel>
+			<mvc:XMLView viewName="mbis.Blackpool.view.Header"/>
+		</Panel>
+		<ObjectHeader intro="{player>Name}" title="{player>Surname}"/>
+		<l:VerticalLayout class="sapUiContentPadding" width="100%">
+			<l:content>
+				<List headerText="Player Information">
+					<DisplayListItem label="Name" value="{player>Name}"/>
+					<DisplayListItem label="Surname" value="{player>Surname}"/>
+					<DisplayListItem label="Birth Date" value="{player>BirthDate}" type="Navigation"/>
+					<DisplayListItem label="Country" value="{player>Country}" type="Navigation"/>
+					<DisplayListItem label="Market Value" value="{player>MarketValue}" type="Navigation"/>
+					<DisplayListItem label="Position" value="{player>Position}" type="Navigation"/>
+				</List>
+			</l:content>
+		</l:VerticalLayout>
+	</Page>
+</mvc:View>
