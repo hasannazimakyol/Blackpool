@@ -111,6 +111,16 @@
 				"target": [
 					"object"
 				]
+			},
+			{
+				"pattern": "detail/{playerPath}",
+				"name": "detail",
+				"target": "detail"
+			},
+			{
+				"pattern": "",
+				"name": "playerslist",
+				"target": "playerslist"
 			}],
 			"targets": {
 				"worklist": {
@@ -132,6 +142,14 @@
 				"notFound": {
 					"viewName": "NotFound",
 					"viewId": "notFound"
+				},
+				"detail": {
+					"viewId": "detail",
+					"viewName": "Detail"
+				},
+				"playerslist": {
+					"viewId": "playerslist",
+					"viewName": "PlayersList"
 				}
 			}
 		}
