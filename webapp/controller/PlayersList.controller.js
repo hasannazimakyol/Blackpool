@@ -253,6 +253,15 @@ sap.ui.define([
 			this.getView().byId("addDialog").close();
 
 		},
+		
+		onPress: function(oEvent) {
+			var oRouter = this.getOwnerComponent().getRouter();
+			var oItem = oEvent.getSource();
+			
+			oRouter.navTo("detail", {
+				playerPath: window.encodeURIComponent(oItem.getBindingContext("player").getPath().substr(1))
+			});
+		},
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
